@@ -34,8 +34,8 @@ Convolution is a mathematical operation used in image processing where each pixe
 
 1. Clone this repository:
    ```
-   git clone 
-   cd 
+   git clone https://github.com/hardikkamboj/Image-filtering-experimentation
+   cd Image-filtering-experimentation
    ```
 
 2. Install the required packages:
