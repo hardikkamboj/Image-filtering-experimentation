@@ -4,6 +4,9 @@ An interactive web application that allows users to experiment with image filter
 
 [Run it on Streamilt Cloud](https://image-filtering-experimentation.streamlit.app/)
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/lyXVZ71sOUQ/0.jpg)](https://www.youtube.com/watch?v=lyXVZ71sOUQ)
+
+
 ![App Screenshot](images/img_1.png)
 
 ![App screenshot](images/img_2.png)
