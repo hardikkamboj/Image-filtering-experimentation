@@ -2,7 +2,7 @@
 
 An interactive web application that allows users to experiment with image filtering using custom convolution kernels.
 
-[Run it on Streamilt Cloud](https://image-filtering-experiment.streamlit.app/)
+[Run it on Streamilt Cloud](https://image-filtering-experimentation.streamlit.app/)
 
 ![App Screenshot](images/img_1.png)
 
