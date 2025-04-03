@@ -5,6 +5,9 @@ import cv2
 from io import BytesIO
 
 def main():
+
+    st.set_page_config(layout="wide")
+
     st.title("Image Filtering Application")
     st.write("Upload an image and apply custom convolution kernels")
     
@@ -23,10 +26,7 @@ def main():
         else:
             has_color = False
             img_gray = img_array
-        
-        # Display original image
-        st.subheader("Original Image")
-        st.image(image, use_column_width=True)
+    
         
         # Kernel size selection
         kernel_size = st.selectbox("Select Kernel Size", [3, 5, 7], index=0)
@@ -99,31 +99,86 @@ def main():
                 st.session_state.kernel = kernel
         
         # Custom kernel input
+        # st.subheader("Custom Kernel Values")
+        
+        # # Create a grid of number inputs for the kernel
+        # kernel = np.copy(st.session_state.kernel)
+        # cols = st.columns(kernel_size)
+        
+        # for i in range(kernel_size):
+        #     for j in range(kernel_size):
+        #         with cols[j]:
+        #             kernel[i, j] = st.number_input(
+        #                 f"[{i},{j}]",
+        #                 value=float(kernel[i, j]),
+        #                 format="%.2f",
+        #                 key=f"k_{i}_{j}"
+        #             )
+        
+        # # Update the kernel in session state
+        # st.session_state.kernel = kernel
+        
+        # # Display the kernel as a matrix
+        # st.subheader("Current Kernel")
+        # st.text(np.array2string(kernel, precision=2))
+
         st.subheader("Custom Kernel Values")
         
-        # Create a grid of number inputs for the kernel
-        kernel = np.copy(st.session_state.kernel)
-        cols = st.columns(kernel_size)
+        # Create two columns - one for kernel inputs, one for current kernel display
+        kernel_col1, kernel_col2 = st.columns([3, 2])
         
-        for i in range(kernel_size):
-            for j in range(kernel_size):
-                with cols[j]:
-                    kernel[i, j] = st.number_input(
-                        f"[{i},{j}]",
-                        value=float(kernel[i, j]),
-                        format="%.2f",
-                        key=f"k_{i}_{j}"
-                    )
+        with kernel_col1:
+            # Create a grid of number inputs for the kernel
+            kernel = np.copy(st.session_state.kernel)
+            
+            # Use custom CSS to make inputs smaller
+            st.markdown("""
+            <style>
+            .stNumberInput input {
+                padding: 0.3rem;
+            }
+            div[data-baseweb="input"] {
+                width: 80px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            
+            # Create input grid
+            for i in range(kernel_size):
+                cols = st.columns(kernel_size)
+                for j in range(kernel_size):
+                    with cols[j]:
+                        kernel[i, j] = st.number_input(
+                            f"",  # Remove label to save space
+                            value=float(kernel[i, j]),
+                            format="%.2f",
+                            key=f"k_{i}_{j}",
+                            step=0.5,
+                            label_visibility="collapsed"  # Hide the label completely
+                        )
         
         # Update the kernel in session state
         st.session_state.kernel = kernel
         
         # Display the kernel as a matrix
-        st.subheader("Current Kernel")
-        st.text(np.array2string(kernel, precision=2))
+        with kernel_col2:
+            st.markdown("**Current Kernel:**")
+            st.text(np.array2string(kernel, precision=2))
+
+
+        # Display original image
+        st.subheader("Original Image")
+        button_pressed = st.button("Apply Filter")
+
+        outputcol_1, outputcol_2 = st.columns(2)
+
+        with outputcol_1:
+            st.image(image, use_container_width=True)
+
+
         
         # Apply filter button
-        if st.button("Apply Filter"):
+        if button_pressed:
             # Apply the convolution
             if has_color:
                 # Process each channel separately
@@ -142,8 +197,9 @@ def main():
                 filtered_img = np.clip(filtered_img, 0, 255).astype(np.uint8)
             
             # Display the filtered image
-            st.subheader("Filtered Image")
-            st.image(filtered_img, use_column_width=True)
+            with outputcol_2:
+                #st.subheader("Filtered Image")
+                st.image(filtered_img, use_container_width=True)
             
             # Add download button for filtered image
             filtered_pil = Image.fromarray(filtered_img)
