@@ -153,7 +153,7 @@ def main():
                             value=float(kernel[i, j]),
                             format="%.2f",
                             key=f"k_{i}_{j}",
-                            step=0.5,
+                            step=1.0,
                             label_visibility="collapsed"  # Hide the label completely
                         )
         
@@ -168,7 +168,7 @@ def main():
 
         # Display original image
         st.subheader("Original Image")
-        button_pressed = st.button("Apply Filter")
+        #button_pressed = st.button("Apply Filter")
 
         outputcol_1, outputcol_2 = st.columns(2)
 
@@ -178,7 +178,7 @@ def main():
 
         
         # Apply filter button
-        if button_pressed:
+        if True:
             # Apply the convolution
             if has_color:
                 # Process each channel separately
